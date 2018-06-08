@@ -13,6 +13,15 @@ image augmenter adds images by image augmentation techniquess below.
 
 when you use it to 100 images, you will get 800 images.
 
+# requirement
+
+require pillow and tensorflow.
+
+```
+$ pip install tensorflow
+$ pip install pillow
+```
+
 # usage
 
 1. put images in `src` directory.
