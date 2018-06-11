@@ -1,4 +1,5 @@
 # image-augmenter
+
 exec image augumentation.
 
 image augmenter adds images by image augmentation techniquess below.
@@ -9,7 +10,6 @@ image augmenter adds images by image augmentation techniquess below.
 - flip left right
 - high contrast
 - low contrast
-- whitening
 
 when you use it to 100 images, you will get 800 images.
 
@@ -24,6 +24,6 @@ $ pip install pillow
 
 # usage
 
-1. put images in `src` directory.
-2. exec script.
-3. all images are put into `dst` directory.
+1.  put images in `src` directory.
+2.  exec script.
+3.  all images are put into `dst` directory.
