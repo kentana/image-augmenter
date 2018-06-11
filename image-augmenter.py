@@ -40,5 +40,48 @@ def permitted_image(filename):
     return ext in EXTS
 
 
+def lighten(image):
+    # TODO: lighten!
+    return tf.image.random_brightness(image, 1)
+
+
+def darken(image):
+    # TODO: darken!
+    return tf.image.random_brightness(image, 2)
+
+
+def flip_up_down(image):
+    return tf.image.random_flip_up_down(image)
+
+
+def flip_left_right(image):
+    return tf.image.random_flip_left_right(image)
+
+
+def high_contrast(image):
+    # TODO: high contrast!!
+    return tf.image.random_contrast(image, 90, 100)
+
+
+def low_contrast(image):
+    # TODO: low contrast!!
+    return tf.image.random_contrast(image, 0, 1)
+
+
+def main():
+    images = get_images()
+    print('images')
+    print(images)
+    lighten_images = [lighten(i) for i in images]
+    print('images')
+    print(images)
+    print('lightn images')
+    print(lighten_images)
+
+    for i in lighten_images:
+        i.show()
+        i.save('lighten.jpg')
+
+
 if __name__ == '__main__':
-    print(get_images())
+    main()
