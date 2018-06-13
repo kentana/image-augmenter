@@ -2,6 +2,7 @@ import sys
 import os
 from PIL import Image
 import tensorflow as tf
+import numpy as np
 
 # exts.
 # image-augmenter handles only png and jpg.
@@ -31,6 +32,14 @@ def image_path(filename):
     return 'src/' + filename
 
 
+def dst_image_path(filename):
+    """
+    returns dst image's path from filename.
+    """
+
+    return 'dst/' + filename
+
+
 def permitted_image(filename):
     """
     reports image is permitted.
@@ -41,46 +50,91 @@ def permitted_image(filename):
 
 
 def lighten(image):
-    # TODO: lighten!
-    return tf.image.random_brightness(image, 1)
+    """
+    lighten image.
+    """
+    return tf.image.adjust_brightness(image, 0.5)
 
 
 def darken(image):
-    # TODO: darken!
-    return tf.image.random_brightness(image, 2)
+    """
+    darken image.
+    """
+    return tf.image.adjust_brightness(image, -0.5)
 
 
 def flip_up_down(image):
-    return tf.image.random_flip_up_down(image)
+    """
+    flip image vertically.
+    """
+    return tf.image.flip_up_down(image)
 
 
 def flip_left_right(image):
-    return tf.image.random_flip_left_right(image)
+    """
+    flip image horizontally.
+    """
+    return tf.image.flip_left_right(image)
 
 
 def high_contrast(image):
-    # TODO: high contrast!!
-    return tf.image.random_contrast(image, 90, 100)
+    """
+    up image contrast.
+    """
+    return tf.image.adjust_contrast(image, 90)
 
 
 def low_contrast(image):
-    # TODO: low contrast!!
-    return tf.image.random_contrast(image, 0, 1)
+    """
+    down image contrast.
+    """
+    return tf.image.adjust_contrast(image, 0.2)
+
+
+def augment(image):
+    """
+    augments image.
+    """
+    return [
+        lighten(image),
+        darken(image),
+        flip_up_down(image),
+        flip_left_right(image),
+        high_contrast(image),
+        low_contrast(image),
+    ]
+
+
+def generate_dst_filename(image, sufix):
+    """
+    generates dst file name.
+    """
+    filepath = image.filename
+    filename = filepath.split('/')[-1]
+    name, ext = filename.split('.')
+    return f'{name}_{sufix}.{ext}'
+
+
+def save_image(image, filename):
+    """
+    saves image.
+    """
+    with tf.Session() as sess:
+        coord = tf.train.Coordinator()
+        tf.train.start_queue_runners(coord=coord)
+        for i in range(4):
+            img = sess.run(image)
+            Image.fromarray(np.uint8(img)).save(dst_image_path(filename))
 
 
 def main():
     images = get_images()
-    print('images')
-    print(images)
-    lighten_images = [lighten(i) for i in images]
-    print('images')
-    print(images)
-    print('lightn images')
-    print(lighten_images)
+    augmented_images = [augment(i) for i in images]
 
-    for i in lighten_images:
-        i.show()
-        i.save('lighten.jpg')
+    for idx, imgs in enumerate(augmented_images):
+        image = images[idx]
+        for i, img in enumerate(imgs):
+            save_image(img, generate_dst_filename(image, i))
 
 
 if __name__ == '__main__':
