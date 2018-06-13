@@ -1,8 +1,9 @@
 # mac staff.
 .DS_Store
 
-# src images.
+# images.
 src/*
+dst/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
