@@ -11,7 +11,7 @@ image augmenter adds images by image augmentation techniquess below.
 - high contrast
 - low contrast
 
-when you use it to 100 images, you will get 800 images.
+when you use it to 100 images, you will get 700 images.
 
 # requirement
 
